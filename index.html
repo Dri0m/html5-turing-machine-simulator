@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="cs">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>[[turingMachineSimulator]]</title>
+
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="css/stylesheet.css">
+
+    <script src='js/machines.js'></script>
+
+    <script src='js/editor/StateTableFieldFormatter.js'></script>
+    <script src='js/editor/Tape.js'></script>
+    <script src='js/editor/State.js'></script>
+    <script src='js/editor/ControlUnit.js'></script>
+
+    <script src='js/simulator/DeltaFunction.js'></script>
+    <script src='js/simulator/Parser.js'></script>
+    <script src='js/simulator/TuringMachine.js'></script>
+
+    <script src='js/editor/messages.js'></script>
+    <script src='js/editor/menu.js'></script>
+    <script src='js/editor/table.js'></script>
+    <script src='js/langs.js'></script>
+    <script src='js/main.js'></script>
+</head>
+
+<body onload="init()">
+    <div class="right">
+        <fieldset>
+            <legend>[[controls]]
+                <button type="button" id="help_button" class="menu" style="display: none;">[[help]]</button>
+            </legend>
+            <button type="button" id="edit_button" class="wide menu green" onclick="edit();">[[editMode]]</button><br>
+            <button type="button" id="simulation_button" class="wide menu green" onclick="simulation();">[[simulationMode]]</button><br>
+            <hr>
+            <div id="edit_mode_buttons">
+                <button type="button" class="tinywide menu" onclick="quickSave();">[[quickSave]]</button>
+                <button type="button" class="tinywide menu" onclick="quickLoad();">[[quickLoad]]</button><br>
+                <hr>
+                <button type="button" class="tinywide menu" onclick="linkSave();">[[createLink]]</button>
+                <button type="button" class="tinywide menu" onclick="linkLoad();" style="display: none;">[[loadLink]]</button>
+                <hr>
+                <button type="button" class="tinywide menu" onclick="fileSave();">[[saveToFile]]</button>
+                <label class="file_input_label menu">
+                    <input type="file" class="file_input menu" id="file_input"/>
+                    [[loadFromFile]]
+                </label>
+                <input type="file" class="file_input menu" id="file_input" style="float: right;" />
+                <hr>
+                <button type="button" class="tinywide menu" onclick="clearTable();">[[clearTable]]</button>
+                <hr>
+                <select id="machine_selector" class="menu" onChange="loadPreset(this.value);">
+                    <option value="" disabled selected>[[premadeMachines]]</option>
+                    <option value="notPrime">[[machineNotPrime]]</option>
+                    <option value="a^nb^n">[[machineAnBn]]</option>
+                    <option value="twice">[[machineTwice]]</option>
+                    <option value="multiplication">[[machineMultiplication]]</option>
+                    <option value="equalab">[[machineEqualab]]</option>
+                    <option value="cycle">[[machineCycle]]</option>
+                    <option value="shuffle">[[machineShuffle]]</option>
+                    <option value="a^nba^n">[[machineanban]]</option>
+                </select>
+                <select id="machine_selector" class="menu" onChange="changeLang(this.value);">
+                    <option value="" disabled selected>[[language]]</option>
+                    <option value="" class="warn" disabled>[[saveWarning]]</option>
+                    <option value="en">[[english]]</option>
+                    <option value="cz">[[czech]]</option>
+                </select>
+            </div>
+            <div id="simulation_mode_buttons">
+                <button type="button" id="step_button" class="stepper menu" onclick="step();">[[doStep]]</button><input type="number" id='step_count' class="tapeCount menu" value=1> [[stepsSP]]<br>
+                <hr>
+                <button type="button" id="autostep_button" class="stepper menu" onclick="enableAutostep();">[[autoStep]]</button> [[every]]
+                <input type="number" id='autostep_interval' class="stepperCount menu" value=100> ms<br>
+                <hr>
+                <button type="button" id="finish_button" class="wide menu" onclick="finish();">[[finish]]</button><br>
+                <input type="checkbox" id="finish_safely" alt="[[safetyAlt]]" checked>[[safetyLimit]]<br>
+                <hr>
+                <button type="button" id="reset_button" class="wide menu" onclick="reset();">[[reset]]</button><br>
+                <fieldset>
+                    <legend>[[stepSelection]]</legend>
+                    <div id="step_selection"></div>
+                </fieldset>
+            </div>
+        </fieldset>
+
+    </div>
+    <div class="left" id="left_tapes">
+
+        <fieldset id="tape_fieldset">
+
+        </fieldset>
+        <div id="messageBox" class="message"></div>
+    </div>
+    <div class="left overflow" id="left_table">
+        <fieldset class="table_fieldset">
+            <legend>[[transitionTable]]<button id="add_state" type="button" class="menu" onclick="addRow();">[[addState]]</button>
+                <button id="add_symbol" type="button" class="menu" onclick="addColumn();">[[addColumn]]</button>
+            </legend>
+            <div class="overflow">
+                <table id="transition_table"></table>
+            </div>
+        </fieldset>
+    </div>
+    <div class="footer">
+        2018-2020 Dri0m | <a href="css/LICENSE.txt">[[font]]</a>
+    </div>
+
+    <div id="overlay" class="overlay">
+        <div class="overlay_insides">
+            <span id="close">[[close]]</span>
+            <span id="disableHelp">[[doNotShowAgain]]&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <p>
+                <h2 class="negativeMargin">[[webTuringMachineSimulator]]</h2>
+                [[helpSection]]
+            </p>
+        </div>
+    </div>
+
+</body>
+
+</html>
