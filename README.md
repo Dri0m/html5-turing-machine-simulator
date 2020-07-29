@@ -1,5 +1,7 @@
 # HTML5 Turing Machine Simulator
 
+Live version: https://unstable.life/turing-machine-simulator/
+
 ## Functions
 <ul>
     <li>Simulation of single-tape and multi-tape TM</li>
